@@ -29,6 +29,13 @@ class People(Base):
     id_starships = Column(Integer, ForeignKey('starships.id'))
     id_vehicles = Column(Integer, ForeignKey('vehicles.id'))
 
+    favoritos_people = relationship('Favoritos', backref='people', lazy=True)
+    vehicle = relationship('Vehicle', backref='people', lazy=True)
+    species = relationship('Species', backref='people', lazy=True)
+    starships = relationship('Starships', backref='people', lazy=True)
+    
+
+
 class Vehicles(Base):
     __tablename__ = 'vehicles'
 
@@ -45,10 +52,12 @@ class Vehicles(Base):
     cargo_capacity = Column(String(250), nullable=False)
     consumables = Column(String(250), nullable=False)
     id_films = Column(Integer, ForeignKey('films.id'))
-    id_people = Column(Integer, ForeignKey('peple.id'))
+    id_people = Column(Integer, ForeignKey('people.id'))
     url = Column(String(250), nullable=False)
     created = Column(String(250), nullable=False)
     edited = Column(String(250), nullable=False)
+
+    favoritos_vehicle = relationship('Favoritos', backref='vehicle', lazy=True)
 
     #person = relationship(Person)
 
@@ -73,12 +82,16 @@ class Planets(Base):
     created = Column(String(250), nullable=False)
     edited = Column(String(250), nullable=False)
 
+    favoritos_planets = relationship('Favoritos', backref='planets', lazy=True)
+
 class Users(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True)
     name = Column(String(250), nullable=False)
     password = Column(String(250), nullable=False)
+
+    favoritos_user = relationship('Favoritos', backref='users', lazy=True)
 
 class Favoritos(Base):
     __tablename__ = 'favoritos'
@@ -91,6 +104,8 @@ class Favoritos(Base):
     id_films = Column(Integer, ForeignKey('films.id'))
     id_starships = Column(Integer, ForeignKey('starships.id'))
     id_planets = Column(Integer, ForeignKey('planets.id'))
+
+    #user = relationship('Users', backref='hola', lazy=True)
 
 class Films(Base):
     __tablename__ = 'films'
@@ -110,6 +125,13 @@ class Films(Base):
     url = Column(String(250), nullable=False)
     created = Column(String(250), nullable=False)
     edited = Column(String(250), nullable=False)
+
+    favoritos_films = relationship('Favoritos', backref='films', lazy=True)
+    people = relationship('People', backref='films', lazy=True)
+    vehicles = relationship('Vehicles', backref='films', lazy=True)
+    starships = relationship('Starships', backref='films', lazy=True)
+    species = relationship('Species', backref='films', lazy=True)
+    planets = relationship('Planets', backref='films', lazy=True)
 
 class Starships(Base):
     __tablename__ = 'starships'
@@ -134,6 +156,8 @@ class Starships(Base):
     created = Column(String(250), nullable=False)
     edited = Column(String(250), nullable=False)
 
+    favoritos_starships = relationship('Favoritos', backref='starships', lazy=True)
+
 class Species(Base):
     __tablename__ = 'species'
 
@@ -153,6 +177,8 @@ class Species(Base):
     url = Column(String(250), nullable=False)
     created = Column(String(250), nullable=False)
     edited = Column(String(250), nullable=False)
+
+    favoritos_species = relationship('Favoritos', backref='species', lazy=True)
 
 
 ## Draw from SQLAlchemy base
